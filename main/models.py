@@ -4,6 +4,7 @@ from django.db import models
 # Create your models here.
 class Blog(models.Model):
 
+    slug = models.SlugField(max_length=100)
     title = models.CharField(max_length=255, blank=False)
     body = models.TextField(max_length=3000)
     date_created = models.DateTimeField(auto_now_add=True)
