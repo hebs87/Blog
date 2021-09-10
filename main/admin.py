@@ -8,6 +8,7 @@ class BlogAdmin(admin.ModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
     list_display = ('title', 'date_created', 'last_modified', 'is_draft')
     list_filter = ('is_draft',)
+    search_fields = ('title',)
     # One way to order - this does it for all users
     # ordering = ('title', '-date_created')
 
