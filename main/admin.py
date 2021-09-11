@@ -35,6 +35,8 @@ class BlogAdmin(SummernoteModelAdmin):
     # ordering = ('title', '-date_created')
 
     # fields = ('title', 'body', 'is_draft', ('date_created', 'last_modified'))
+    # This can also be filter_vertical
+    filter_horizontal = ('categories',)
     summernote_fields = ('body',)
     fieldsets = (
         (
