@@ -1,11 +1,14 @@
 from django.utils import timezone
 from django.contrib import admin, messages
 
+from django_summernote.admin import SummernoteModelAdmin
+
 from .models import Blog
 
 
 # Register your models here.
-class BlogAdmin(admin.ModelAdmin):
+# Inherit from SummernoteModelAdmin, which is a sub class of admin.ModelAdmin
+class BlogAdmin(SummernoteModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
     list_display = ('title', 'date_created', 'last_modified', 'is_draft', 'days_since_creation')
     list_filter = ('is_draft', 'date_created')
@@ -21,6 +24,7 @@ class BlogAdmin(admin.ModelAdmin):
     # ordering = ('title', '-date_created')
 
     # fields = ('title', 'body', 'is_draft', ('date_created', 'last_modified'))
+    summernote_fields = ('body',)
     fieldsets = (
         (
             'Details',
