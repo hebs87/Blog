@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.contrib import admin, messages
+from django.db.models import Count
 
 from django_summernote.admin import SummernoteModelAdmin
 
@@ -20,7 +21,7 @@ class CommentInline(admin.TabularInline):
 # Inherit from SummernoteModelAdmin, which is a sub class of admin.ModelAdmin
 class BlogAdmin(SummernoteModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
-    list_display = ('title', 'date_created', 'last_modified', 'is_draft', 'days_since_creation')
+    list_display = ('title', 'date_created', 'last_modified', 'is_draft', 'days_since_creation', 'no_of_comments')
     list_filter = ('is_draft', 'date_created')
     search_fields = ('title',)
     exclude = ('slug',)
@@ -66,6 +67,14 @@ class BlogAdmin(SummernoteModelAdmin):
 
     actions = ('set_blogs_to_published',)
 
+    def get_queryset(self, request):
+        """ Override get_queryset method to also return number of comment per Blog """
+        qs = super(BlogAdmin, self).get_queryset(request)
+        # annotate() adds value to each record in qs - we want to add number of comments
+        # 'comments' is related_name for blog field in Comment model
+        qs = qs.annotate(comments_count=Count('comments'))
+        return qs
+
     def get_ordering(self, request):
         """ Override get_ordering method to customise ordering based on user type """
         if request.user.is_superuser:
@@ -85,6 +94,12 @@ class BlogAdmin(SummernoteModelAdmin):
         except:
             self.message_user(request, f'Unable to publish selected Blog', level=messages.WARNING)
     set_blogs_to_published.short_description = 'Mark selected Blogs as published'
+
+    def no_of_comments(self, obj):
+        """ A custom column in the list display to show the comments_count (added to Blog record in get_queryset """
+        return obj.comments_count
+    # Allow ordering by comments field in list view
+    no_of_comments.admin_order_field = 'comments_count'
 
     def days_since_creation(self, obj):
         """ A custom column in the list display to show the days since creation """
