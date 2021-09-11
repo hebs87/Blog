@@ -3,7 +3,7 @@ from django.contrib import admin, messages
 
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Blog
+from .models import Blog, Comment
 
 
 # Register your models here.
@@ -81,3 +81,4 @@ class BlogAdmin(SummernoteModelAdmin):
 
 
 admin.site.register(Blog, BlogAdmin)
+admin.site.register(Comment)
