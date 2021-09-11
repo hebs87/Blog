@@ -41,16 +41,8 @@ class BlogAdmin(SummernoteModelAdmin):
             'Details',
             {
                 # Can also add classes and description properties
-                'fields': ('title', 'body'),
+                'fields': ('title', 'body', 'categories',),
                 'description': 'The Title is required'
-            }
-        ),
-        (
-            'Categories',
-            {
-                # Can also add classes and description properties
-                'fields': ('categories',),
-                'classes': ('collapse',),
             }
         ),
         (
