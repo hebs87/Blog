@@ -10,6 +10,7 @@ class Blog(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
     is_draft = models.BooleanField(default=True)
+    categories = models.ManyToManyField('main.Category')
 
     class Meta:
         verbose_name = 'Blog'
