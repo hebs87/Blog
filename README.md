@@ -53,3 +53,18 @@ for blog in Blog.objects.iterator():
     comments = [Comment(comment=faker.paragraph(), blog=blog) for _ in range(0, 3)]
     Comment.objects.bulk_create(comments)
 ```
+
+### Category
+
+To create sample Category model data, you will need to follow the below steps:
+
+1. Open the Django shell by running `python manage.py shell`
+2. In the Django shell, run the following code block
+
+```
+from main.models import Category
+
+data = ['Web Development', 'Databases', 'Data Science', 'Security', 'Django', 'Python']
+categories = [Category(name=i) for i in data]
+Category.objects.bulk_create(categories)
+```
