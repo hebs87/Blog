@@ -19,6 +19,9 @@ class BlogAdmin(admin.ModelAdmin):
     # One way to order - this does it for all users
     # ordering = ('title', '-date_created')
 
+    fields = ('title', 'body', 'is_draft', ('date_created', 'last_modified'))
+    readonly_fields = ('date_created', 'last_modified')
+
     actions = ('set_blogs_to_published',)
 
     def get_ordering(self, request):
