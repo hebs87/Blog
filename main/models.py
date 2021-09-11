@@ -28,8 +28,12 @@ class Blog(models.Model):
             existing_record = Blog.objects.get(pk=self.pk)
 
         if not existing_record or existing_record.title != self.title:
-            # Convert title to lower case, split words and join with a hyphen
-            title_words = self.title.lower().split(' ')
-            self.slug = '-'.join(title_words)
+            self.slug = self.generate_slug(self.title)
 
         super(Blog, self).save(*args, **kwargs)
+
+    @staticmethod
+    def generate_slug(title):
+        """ Convert title to slug - lowercase title separated by hyphens instead of spaces """
+        title_words = title.lower().split(' ')
+        return '-'.join(title_words)
