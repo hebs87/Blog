@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.contrib import admin, messages
 
 from .models import Blog
@@ -6,7 +7,7 @@ from .models import Blog
 # Register your models here.
 class BlogAdmin(admin.ModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
-    list_display = ('title', 'date_created', 'last_modified', 'is_draft')
+    list_display = ('title', 'date_created', 'last_modified', 'is_draft', 'days_since_creation')
     list_filter = ('is_draft', 'date_created')
     search_fields = ('title',)
     exclude = ('slug',)
@@ -67,6 +68,12 @@ class BlogAdmin(admin.ModelAdmin):
         except:
             self.message_user(request, f'Unable to publish selected Blog', level=messages.WARNING)
     set_blogs_to_published.short_description = 'Mark selected Blogs as published'
+
+    def days_since_creation(self, obj):
+        """ A custom column in the list display to show the days since creation """
+        diff = timezone.now() - obj.date_created
+        return diff.days
+    days_since_creation.short_description = 'Days Active'
 
 
 admin.site.register(Blog, BlogAdmin)
