@@ -37,3 +37,23 @@ class Blog(models.Model):
         """ Convert title to slug - lowercase title separated by hyphens instead of spaces """
         title_words = title.lower().split(' ')
         return '-'.join(title_words)
+
+
+class Comment(models.Model):
+
+    # related_name is what we will refer to this model as from the Blog model
+    blog = models.ForeignKey(Blog, related_name='comments', on_delete=models.CASCADE)
+    comment = models.TextField(max_length=3000)
+    is_active = models.BooleanField(blank=False, default=True)
+    date_created = models.DateTimeField(auto_now_add=True)
+    last_modified = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    def __str__(self):
+        if len(self.comment) > 50:
+            return f'{self.blog} - {self.comment[:50]}...'
+
+        return f'{self.blog} - {self.comment}'
