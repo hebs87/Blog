@@ -36,3 +36,20 @@ faker = Faker()
 for _ in range(0, 500):
     Blog.objects.create(title=faker.sentence(), body=faker.paragraph())
 ```
+
+### Comment
+
+To create sample Comment model data, you will need to follow the below steps **_after_** creating the sample Blog data:
+
+1. Open the Django shell by running `python manage.py shell`
+2. In the Django shell, run the following code block
+
+```
+from main.models import Blog, Comment
+from faker import Faker
+
+faker = Faker()
+for blog in Blog.objects.iterator():
+    comments = [Comment(comment=faker.paragraph(), blog=blog) for _ in range(0, 3)]
+    Comment.objects.bulk_create(comments)
+```
