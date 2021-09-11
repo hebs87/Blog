@@ -9,6 +9,10 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_created', 'last_modified', 'is_draft')
     list_filter = ('is_draft',)
     search_fields = ('title',)
+    # How to generate field automatically based on another field
+    # prepopulated_fields = {
+    #     'slug': ('title',)
+    # }
     # One way to order - this does it for all users
     # ordering = ('title', '-date_created')
 
