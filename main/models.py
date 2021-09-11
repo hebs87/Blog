@@ -47,6 +47,7 @@ class Comment(models.Model):
     is_active = models.BooleanField(blank=False, default=True)
     date_created = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now=True)
+    categories = models.ManyToManyField('main.Category')
 
     class Meta:
         verbose_name = 'Comment'
@@ -57,3 +58,19 @@ class Comment(models.Model):
             return f'{self.blog} - {self.comment[:50]}...'
 
         return f'{self.blog} - {self.comment}'
+
+
+class Category(models.Model):
+
+    name = models.CharField(max_length=100)
+    is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Category'
+        verbose_name_plural = 'Categories'
+
+    def __str__(self):
+        if len(self.name) > 50:
+            return f'{self.name[:50]}...'
+
+        return f'{self.name}'
