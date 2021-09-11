@@ -4,7 +4,7 @@ from django.db.models import Count
 
 from django_summernote.admin import SummernoteModelAdmin
 
-from .models import Blog, Comment
+from .models import Blog, Comment, Category
 
 
 # Register your models here.
@@ -43,6 +43,14 @@ class BlogAdmin(SummernoteModelAdmin):
                 # Can also add classes and description properties
                 'fields': ('title', 'body'),
                 'description': 'The Title is required'
+            }
+        ),
+        (
+            'Categories',
+            {
+                # Can also add classes and description properties
+                'fields': ('categories',),
+                'classes': ('collapse',),
             }
         ),
         (
@@ -169,3 +177,4 @@ class CommentAdmin(admin.ModelAdmin):
 
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(Comment, CommentAdmin)
+admin.site.register(Category)
