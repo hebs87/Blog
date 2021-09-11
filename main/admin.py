@@ -9,6 +9,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'date_created', 'last_modified', 'is_draft')
     list_filter = ('is_draft',)
     search_fields = ('title',)
+    exclude = ('slug',)
     # How to generate field automatically based on another field
     # prepopulated_fields = {
     #     'slug': ('title',)
