@@ -10,6 +10,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_filter = ('is_draft',)
     search_fields = ('title',)
     exclude = ('slug',)
+    list_per_page = 50
     # How to generate field automatically based on another field
     # prepopulated_fields = {
     #     'slug': ('title',)
