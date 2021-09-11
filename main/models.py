@@ -19,8 +19,15 @@ class Blog(models.Model):
         return self.title
 
     def save(self, *args, **kwargs):
-        """ Override save method to create slug if it is not present """
-        if not self.slug:
+        """
+        Override save method to create slug if it is not present,
+        or if editing the record and title has changed
+        """
+        existing_record = None
+        if self.pk:
+            existing_record = Blog.objects.get(pk=self.pk)
+
+        if not existing_record or existing_record.title != self.title:
             # Convert title to lower case, split words and join with a hyphen
             title_words = self.title.lower().split(' ')
             self.slug = '-'.join(title_words)
