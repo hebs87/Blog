@@ -80,5 +80,63 @@ class BlogAdmin(SummernoteModelAdmin):
     days_since_creation.short_description = 'Days Active'
 
 
+class CommentAdmin(SummernoteModelAdmin):
+    """ A custom CommentAdmin class to enable customising Comment admin view """
+    list_display = ('get_comment', 'blog', 'date_created', 'is_active')
+    list_filter = ('is_active', 'date_created', 'blog')
+    search_fields = ('comment',)
+    list_per_page = 50
+    date_hierarchy = 'date_created'
+    ordering = ('blog', 'comment', '-date_created')
+    summernote_fields = ('comment',)
+    fieldsets = (
+        (
+            'Details',
+            {
+                # Can also add classes and description properties
+                'fields': ('blog', 'comment'),
+            }
+        ),
+        (
+            'Status',
+            {
+                # Can also add classes and description properties
+                'fields': ('is_active',),
+            }
+        ),
+        (
+            'Key Dates',
+            {
+                # Can also add classes and description properties
+                'fields': (('date_created', 'last_modified'),),
+            }
+        ),
+    )
+    readonly_fields = ('date_created', 'last_modified')
+
+    actions = ('set_comment_to_inactive',)
+
+    def set_comment_to_inactive(self, request, queryset):
+        """ Custom action to set selected Comments' is_active to False - show success or warning message """
+        try:
+            count = queryset.update(is_active=False)
+            # Display a success message to the user
+            self.message_user(
+                request,
+                f'{count} {"Comment has" if count == 1 else "Comments have"} been successfully deactivated'
+            )
+        except:
+            self.message_user(request, f'Unable to publish selected Blog', level=messages.WARNING)
+    set_comment_to_inactive.short_description = 'Mark selected Comments as inactive'
+
+    def get_comment(self, obj):
+        """ A custom column in the list display to show the truncated comment """
+        if len(obj.comment) > 50:
+            return f'{obj.comment[:50]}...'
+
+        return obj.comment
+    get_comment.short_description = 'Comment'
+
+
 admin.site.register(Blog, BlogAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)
