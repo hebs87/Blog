@@ -93,6 +93,8 @@ class CommentAdmin(admin.ModelAdmin):
     """ A custom CommentAdmin class to enable customising Comment admin view """
     list_display = ('get_comment', 'blog', 'date_created', 'is_active')
     list_filter = ('is_active', 'date_created', 'blog')
+    # Allows editing the field directly from the change list
+    list_editable = ('is_active',)
     search_fields = ('comment',)
     list_per_page = 50
     date_hierarchy = 'date_created'
