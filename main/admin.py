@@ -11,6 +11,7 @@ class BlogAdmin(admin.ModelAdmin):
     search_fields = ('title',)
     exclude = ('slug',)
     list_per_page = 50
+    date_hierarchy = 'date_created'
     # How to generate field automatically based on another field
     # prepopulated_fields = {
     #     'slug': ('title',)
