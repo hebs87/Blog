@@ -21,50 +21,13 @@ SECRET_KEY='your_secret_key_goes_here'
 
 ## Creating test data
 
-### Blog
-
-To create sample Blog model data, you will need to follow the below steps:
+To create test data for each model, you will need to follow the below steps:
 
 1. Open the Django shell by running `python manage.py shell`
 2. In the Django shell, run the following code block
 
 ```
-from main.models import Blog
-from faker import Faker
+from seed.seed_data import generate_seed_data
 
-faker = Faker()
-for _ in range(0, 500):
-    Blog.objects.create(title=faker.sentence(), body=faker.paragraph())
-```
-
-### Comment
-
-To create sample Comment model data, you will need to follow the below steps **_after_** creating the sample Blog data:
-
-1. Open the Django shell by running `python manage.py shell`
-2. In the Django shell, run the following code block
-
-```
-from main.models import Blog, Comment
-from faker import Faker
-
-faker = Faker()
-for blog in Blog.objects.iterator():
-    comments = [Comment(comment=faker.paragraph(), blog=blog) for _ in range(0, 3)]
-    Comment.objects.bulk_create(comments)
-```
-
-### Category
-
-To create sample Category model data, you will need to follow the below steps:
-
-1. Open the Django shell by running `python manage.py shell`
-2. In the Django shell, run the following code block
-
-```
-from main.models import Category
-
-data = ['Web Development', 'Databases', 'Data Science', 'Security', 'Django', 'Python']
-categories = [Category(name=i) for i in data]
-Category.objects.bulk_create(categories)
+generate_seed_data()
 ```
