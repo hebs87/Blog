@@ -13,6 +13,8 @@ class CommentInline(admin.TabularInline):
     model = Comment
     fields = ('comment', 'is_active')
     extra = 0
+    # Allows classes modification in Inline
+    classes = ('collapse',)
 
 
 # Inherit from SummernoteModelAdmin, which is a sub class of admin.ModelAdmin
@@ -47,6 +49,7 @@ class BlogAdmin(SummernoteModelAdmin):
             {
                 # Can also add classes and description properties
                 'fields': ('is_draft',),
+                'classes': ('collapse',),
             }
         ),
         (
@@ -54,6 +57,7 @@ class BlogAdmin(SummernoteModelAdmin):
             {
                 # Can also add classes and description properties
                 'fields': (('date_created', 'last_modified'),),
+                'classes': ('collapse',),
             }
         ),
     )
