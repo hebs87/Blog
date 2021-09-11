@@ -7,6 +7,14 @@ from .models import Blog, Comment
 
 
 # Register your models here.
+# TabularInline displays field in a row, StackedInline displays the fields as stacked
+class CommentInline(admin.TabularInline):
+    """ A custom CommentInline to enable crud operations on related Comment records from BlogAdmin """
+    model = Comment
+    fields = ('comment', 'is_active')
+    extra = 0
+
+
 # Inherit from SummernoteModelAdmin, which is a sub class of admin.ModelAdmin
 class BlogAdmin(SummernoteModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
@@ -50,6 +58,7 @@ class BlogAdmin(SummernoteModelAdmin):
         ),
     )
     readonly_fields = ('date_created', 'last_modified')
+    inlines = (CommentInline,)
 
     actions = ('set_blogs_to_published',)
 
@@ -80,7 +89,7 @@ class BlogAdmin(SummernoteModelAdmin):
     days_since_creation.short_description = 'Days Active'
 
 
-class CommentAdmin(SummernoteModelAdmin):
+class CommentAdmin(admin.ModelAdmin):
     """ A custom CommentAdmin class to enable customising Comment admin view """
     list_display = ('get_comment', 'blog', 'date_created', 'is_active')
     list_filter = ('is_active', 'date_created', 'blog')
@@ -88,7 +97,6 @@ class CommentAdmin(SummernoteModelAdmin):
     list_per_page = 50
     date_hierarchy = 'date_created'
     ordering = ('blog', 'comment', '-date_created')
-    summernote_fields = ('comment',)
     fieldsets = (
         (
             'Details',
