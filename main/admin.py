@@ -3,6 +3,7 @@ from django.contrib import admin, messages
 from django.db.models import Count
 
 from django_summernote.admin import SummernoteModelAdmin
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 
 from .models import Blog, Comment, Category
 
@@ -113,7 +114,7 @@ class BlogAdmin(SummernoteModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
     """ A custom CommentAdmin class to enable customising Comment admin view """
     list_display = ('get_comment', 'blog', 'date_created', 'is_active')
-    list_filter = ('is_active', 'date_created', 'blog')
+    list_filter = ('is_active', 'date_created', ('blog', RelatedDropdownFilter))
     # Allows editing the field directly from the change list
     list_editable = ('is_active',)
     search_fields = ('comment',)
