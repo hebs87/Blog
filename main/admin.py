@@ -5,8 +5,10 @@ from django.db.models import Count
 from django_summernote.admin import SummernoteModelAdmin
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from rangefilter.filters import DateTimeRangeFilter
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Blog, Comment, Category
+from .resources import CommentResource
 
 
 # Register your models here.
@@ -112,7 +114,7 @@ class BlogAdmin(SummernoteModelAdmin):
     days_since_creation.short_description = 'Days Active'
 
 
-class CommentAdmin(admin.ModelAdmin):
+class CommentAdmin(ImportExportModelAdmin):
     """ A custom CommentAdmin class to enable customising Comment admin view """
     list_display = ('get_comment', 'blog', 'date_created', 'is_active')
     list_filter = ('is_active', 'date_created', ('blog', RelatedDropdownFilter))
@@ -146,6 +148,7 @@ class CommentAdmin(admin.ModelAdmin):
         ),
     )
     readonly_fields = ('date_created', 'last_modified')
+    resource_class = CommentResource
 
     actions = ('set_comment_to_inactive',)
 

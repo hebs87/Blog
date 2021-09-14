@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_summernote',
     'django_admin_listfilter_dropdown',
     'rangefilter',
+    'import_export',
 
     'main.apps.MainConfig',
 ]
