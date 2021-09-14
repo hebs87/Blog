@@ -149,6 +149,8 @@ class CommentAdmin(ImportExportModelAdmin):
     )
     readonly_fields = ('date_created', 'last_modified')
     resource_class = CommentResource
+    # list_select_related = ('blog',)
+    raw_id_fields = ('blog',)
 
     actions = ('set_comment_to_inactive',)
 
