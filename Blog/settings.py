@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'django_summernote',
+    'django_admin_listfilter_dropdown',
 
     'main.apps.MainConfig',
 ]
