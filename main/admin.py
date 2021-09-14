@@ -4,6 +4,7 @@ from django.db.models import Count
 
 from django_summernote.admin import SummernoteModelAdmin
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+from rangefilter.filters import DateTimeRangeFilter
 
 from .models import Blog, Comment, Category
 
@@ -23,7 +24,7 @@ class CommentInline(admin.TabularInline):
 class BlogAdmin(SummernoteModelAdmin):
     """ A custom BlogAdmin class to enable customising Blog admin view """
     list_display = ('title', 'date_created', 'last_modified', 'is_draft', 'days_since_creation', 'no_of_comments')
-    list_filter = ('is_draft', 'date_created')
+    list_filter = ('is_draft', ('date_created', DateTimeRangeFilter))
     search_fields = ('title',)
     exclude = ('slug',)
     list_per_page = 50
